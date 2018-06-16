@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+
+<img th:src="${song.albumImg}">
+
+<h1 th:text="${song.name}"></h1>
+
+<a href="#" class="play-btn">播放</a>
+<audio id="player" style="display: none" src="" controls="controls"></audio>
+
+<h3>
+    <lable>歌手：</lable>
+    <span th:text="${song.singer}"></span>
+</h3>
+
+<h3>
+    <lable>所属专辑：</lable>
+    <span th:text="${song.albumName}"></span>
+</h3>
+
+<h3>
+    <lable>评论数：</lable>
+    <span th:text="${song.commentCount}"></span>
+</h3>
+
+<div th:utext="${song.lyrics}"></div>
+
+<script>
+    $(function () {
+        $('.play-btn').on('click', function (e) {
+            e.preventDefault();
+            $.ajax({
+                url: '/song/music',
+                method: 'get',
+                data: {
+                    songId: '35847388'
+                },
+                cache: false
+            }).done(function (data) {
+                $('#player').show();
+                $('#player').attr('src', data);
+                document.getElementById('player').play();
+            });
+        })
+    });
+
+</script>
+
+</body>
+</html>
